@@ -5,9 +5,13 @@ describe "requests to recipes" do
     Recipe.create(:title => "title")
   end
 
+  let(:env) do
+    { "HTTP_ACCEPT" => nil }
+  end
+
   describe "GET /recipes" do
     it do
-      get "/recipes.json"
+      get "/recipes", nil, env
       response.status.should == 200
       response.body.should be_json([])
     end
@@ -15,7 +19,7 @@ describe "requests to recipes" do
 
   describe "GET /recipes/:id" do
     it do
-      get "/recipes/#{recipe.id}.json"
+      get "/recipes/#{recipe.id}", nil, env
       response.status.should == 200
       response.body.should be_json(Hash)
     end
