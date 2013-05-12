@@ -1,5 +1,3 @@
 Rails.application.routes.draw do
-  # mount Restaurant::Engine => "/restaurant"
-
-  resources :recipes
+  Restaurant::Router.route(self)
 end

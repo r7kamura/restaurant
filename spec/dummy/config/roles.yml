@@ -1,0 +1,4 @@
+recipes:
+  actions:
+    - index
+    - show
