@@ -2,12 +2,12 @@ class RecipesController < ApplicationController
   respond_to :json
 
   def index
-    @recipes = Recipe.all
+    @recipes = model_class.all
     respond_with @recipes
   end
 
   def show
-    @recipe = Recipe.find(params[:id])
+    @recipe = model_class.find(params[:id])
     respond_with @recipe
   end
 end
