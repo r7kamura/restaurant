@@ -1,4 +1,5 @@
-recipes:
-  actions:
-    - index
-    - show
+public:
+  recipes:
+    actions:
+      - index
+      - show
