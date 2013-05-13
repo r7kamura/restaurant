@@ -82,3 +82,6 @@ context "with where params" do
   end
 end
 ```
+
+## More
+See [the example application](https://github.com/r7kamura/restaurant/tree/master/spec/dummy).
