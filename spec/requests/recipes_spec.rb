@@ -68,6 +68,13 @@ describe "requests to recipes" do
         )
       end
     end
+
+    context "with not-allowed order params" do
+      it do
+        get "/recipes", { :order => "title" }, env
+        response.status.should == 403
+      end
+    end
   end
 
   describe "GET /recipes/:id" do

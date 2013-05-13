@@ -3,3 +3,7 @@ public:
     actions:
       - index
       - show
+    where:
+      - title
+    order:
+      - id

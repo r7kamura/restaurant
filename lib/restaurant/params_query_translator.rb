@@ -10,6 +10,17 @@ class Restaurant::ParamsQueryTranslator
     @resources = resources
   end
 
+  {
+    "where" => {
+      "title" => {
+        "eq" => "foobar",
+      },
+      "created_at" => {
+        "gte" => "2013-05-13T00:00:00+09:00",
+      },
+    },
+  }
+
   def translate
     filters.inject(resources) do |result, filter|
       filter.call(result)
@@ -35,7 +46,7 @@ class Restaurant::ParamsQueryTranslator
   end
 
   def where
-    params[:where] || []
+    params[:where] || {}
   end
 
   def order
@@ -56,12 +67,8 @@ class Restaurant::ParamsQueryTranslator
     end
 
     def call(resources)
-      if value.is_a? String
-        self.class.new(key => { "eq" => value }).call(*args)
-      else
-        sections.inject(resources) do |relation, section|
-          relation.where("#{column} #{section.operator}", *section.operand)
-        end
+      sections.inject(resources) do |relation, section|
+        relation.where("#{column} #{section.operator}", *section.operand)
       end
     end
 
