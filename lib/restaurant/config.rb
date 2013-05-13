@@ -11,7 +11,7 @@ module Restaurant::Config
     end
 
     def path
-      Rails.root.join("config/roles.yml").tap do |path|
+      Rails.root.join("config/restaurant.yml").tap do |path|
         raise NoRolesError, "#{path} is not found" unless path.exist?
       end
     end

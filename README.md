@@ -5,7 +5,7 @@ Restaurant serves RESTful API on Rails.
 
 ### No more controllers, No more routes
 Restaurant provides strict RESTful API implementation for your models.
-All controllers and routings will be auto-defined based on your config/roles.yml definition.
+All controllers and routings will be auto-defined based on your config/restaurant.yml definition.
 No need to write any more app/controllers and config/routes.rb.
 All you have to do is write your models and authorization yaml file.
 
@@ -24,7 +24,7 @@ end
 ```
 
 ```yaml
-# config/roles.yml
+# config/restaurant.yml
 public:
   recipes:
     actions:
@@ -47,7 +47,7 @@ You can restrict users by their scopes, accessed actions, and used queries.
  * can sort recipes by id and title
 
 ```yaml
-# config/roles.yml
+# config/restaurant.yml
 public:
   recipes:
     actions:
