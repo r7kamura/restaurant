@@ -1,6 +1,17 @@
 require "spec_helper"
 
 describe "requests to recipes" do
+  let(:token) do
+    FactoryGirl.create(:doorkeeper_access_token)
+  end
+
+  let(:env) do
+    {
+      "HTTP_ACCEPT"        => nil,
+      "HTTP_AUTHORIZATION" => "Bearer #{token.token}",
+    }
+  end
+
   let(:recipe) do
     Recipe.create(:title => "title")
   end
@@ -9,14 +20,21 @@ describe "requests to recipes" do
     Recipe.create(:title => "other title")
   end
 
-  let(:env) do
-    { "HTTP_ACCEPT" => nil }
-  end
-
   describe "GET /recipes" do
     before do
       recipe
       other_recipe
+    end
+
+    context "without authentication" do
+      before do
+        env.delete("HTTP_AUTHORIZATION")
+      end
+
+      it do
+        get "/recipes", nil, env
+        response.status.should == 401
+      end
     end
 
     it do

@@ -7,5 +7,6 @@ module Restaurant::ControllerHelper
     include Restaurant::ModelClassFinder
     include Restaurant::RestfulActions
     self.responder = Restaurant::ParamsQueryResponder
+    doorkeeper_for :all
   end
 end
