@@ -78,15 +78,36 @@ class Restaurant::ParamsQueryTranslator
       end
 
       def operator
-        case raw_operator
-        when "eq"
-          "= ?"
+        if raw_operand.nil?
+          case raw_operator
+          when "eq"
+            "IS NULL"
+          when "ne"
+            "IS NOT NULL"
+          end
+        else
+          case raw_operator
+          when "eq"
+            "= ?"
+          when "ne"
+            "!= ?"
+          when "lt"
+            "< ?"
+          when "lte"
+            "<= ?"
+          when "gt"
+            "> ?"
+          when "gte"
+            ">= ?"
+          when "in"
+            "IN (?)"
+          end
         end
       end
 
       def operand
         case raw_operand
-        when true
+        when nil
           []
         else
           [raw_operand]
@@ -96,32 +117,54 @@ class Restaurant::ParamsQueryTranslator
   end
 
   class OrderFilter
-    attr_reader :raw_column
+    attr_reader :columns
 
-    def initialize(raw_column)
-      @raw_column = raw_column
+    def initialize(columns)
+      @columns = columns
     end
 
     def call(resources)
-      resources.order("#{column} #{order}")
+      sections.inject(resources) do |result, section|
+        result.order(section.sort)
+      end
+    end
+
+    def sections
+      Array.wrap(columns).map do |column|
+        Section.new(column)
+      end
     end
 
     private
 
-    def column
-      raw_column.to_s.gsub(/^-/, "")
-    end
+    class Section
+      attr_reader :raw_column
 
-    def order
-      if desc?
-        "DESC"
-      else
-        "ASC"
+      def initialize(raw_column)
+        @raw_column = raw_column
       end
-    end
 
-    def desc?
-      /^-/ === raw_column.to_s
+      def sort
+        "#{column} #{order}"
+      end
+
+      private
+
+      def column
+        raw_column.to_s.gsub(/^-/, "")
+      end
+
+      def order
+        if desc?
+          "DESC"
+        else
+          "ASC"
+        end
+      end
+
+      def desc?
+        /^-/ === raw_column.to_s
+      end
     end
   end
 end
