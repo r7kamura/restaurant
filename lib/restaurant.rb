@@ -1,6 +1,5 @@
 require "restaurant/authentication"
 require "restaurant/authorization"
-require "restaurant/engine"
 require "restaurant/config"
 require "restaurant/controller_helper"
 require "restaurant/controller_provider"
