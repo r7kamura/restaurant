@@ -6,7 +6,7 @@ module Restaurant::RestfulActions
   end
 
   def index
-    respond_with model_class.all
+    respond_with model_class.scoped
   end
 
   def show

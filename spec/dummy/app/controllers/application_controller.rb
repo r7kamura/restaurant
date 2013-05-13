@@ -1,8 +1,5 @@
 class ApplicationController < ActionController::Base
-  include Restaurant::AcceptDefault
-  include Restaurant::ControllerProvider
-  include Restaurant::ModelClassFinder
-  include Restaurant::RestfulActions
+  include Restaurant::ControllerHelper
 
   protect_from_forgery
 
