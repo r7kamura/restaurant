@@ -6,6 +6,7 @@ module Restaurant::ControllerHelper
     include Restaurant::ControllerProvider
     include Restaurant::ModelClassFinder
     include Restaurant::RestfulActions
+    include Restaurant::Authentication
     include Restaurant::Authorization
     self.responder = Restaurant::ParamsQueryResponder
   end

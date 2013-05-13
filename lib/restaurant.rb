@@ -1,3 +1,4 @@
+require "restaurant/authentication"
 require "restaurant/authorization"
 require "restaurant/config"
 require "restaurant/controller_helper"
