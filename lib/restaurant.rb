@@ -7,6 +7,7 @@ require "restaurant/params_query_responder"
 require "restaurant/params_query_translator"
 require "restaurant/restful_actions"
 require "restaurant/router"
+require "restaurant/railtie"
 
 module Restaurant
 end
