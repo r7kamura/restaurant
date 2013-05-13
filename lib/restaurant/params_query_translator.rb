@@ -10,17 +10,6 @@ class Restaurant::ParamsQueryTranslator
     @resources = resources
   end
 
-  {
-    "where" => {
-      "title" => {
-        "eq" => "foobar",
-      },
-      "created_at" => {
-        "gte" => "2013-05-13T00:00:00+09:00",
-      },
-    },
-  }
-
   def translate
     filters.inject(resources) do |result, filter|
       filter.call(result)
