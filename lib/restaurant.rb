@@ -1,5 +1,4 @@
 require "restaurant/engine"
-require "restaurant/accept_default"
 require "restaurant/config"
 require "restaurant/controller_helper"
 require "restaurant/controller_provider"

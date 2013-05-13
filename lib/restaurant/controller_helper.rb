@@ -2,7 +2,7 @@ module Restaurant::ControllerHelper
   extend ActiveSupport::Concern
 
   included do
-    include Restaurant::AcceptDefault
+    use Rack::AcceptDefault
     include Restaurant::ControllerProvider
     include Restaurant::ModelClassFinder
     include Restaurant::RestfulActions
