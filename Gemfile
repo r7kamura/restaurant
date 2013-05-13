@@ -4,6 +4,7 @@ gemspec
 
 gem "rack-accept-default"
 gem "doorkeeper"
+gem "jquery-rails"
 
 group :test do
   gem "rspec-json_matcher"

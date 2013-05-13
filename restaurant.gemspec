@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rails", "~> 3.2.13"
   gem.add_dependency "rack-accept-default"
   gem.add_dependency "doorkeeper", "~> 0.6.7"
+  gem.add_dependency "jquery-rails"
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "rspec-rails", ">= 2.13.0"
   gem.add_development_dependency "rspec-json_matcher"
