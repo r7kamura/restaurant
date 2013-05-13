@@ -13,11 +13,11 @@ describe "requests to recipes" do
   end
 
   let(:recipe) do
-    Recipe.create(:title => "title")
+    FactoryGirl.create(:recipe)
   end
 
   let(:other_recipe) do
-    Recipe.create(:title => "other title")
+    FactoryGirl.create(:recipe)
   end
 
   describe "GET /recipes" do
@@ -31,35 +31,30 @@ describe "requests to recipes" do
         env.delete("HTTP_AUTHORIZATION")
       end
 
-      it do
+      it "returns 401" do
         get "/recipes", nil, env
-        response.status.should == 401
+        response.should be_unauthorized
       end
     end
 
-    it do
+    it "returns recipes" do
       get "/recipes", nil, env
-      response.status.should == 200
-      response.body.should be_json(
-        [
-          lambda {|hash| hash["id"] == recipe.id },
-          lambda {|hash| hash["id"] == other_recipe.id },
-        ]
-      )
+      response.should be_ok
+      response.body.should be_json([Hash, Hash])
     end
 
     context "with where params" do
-      it do
-        get "/recipes", { :where => { :title => { :eq => "title" } } }, env
-        response.status.should == 200
+      it "returns recipes filtered by given query" do
+        get "/recipes", { :where => { :title => { :eq => recipe.title } } }, env
+        response.should be_ok
         response.body.should be_json([Hash])
       end
     end
 
     context "with order params" do
-      it do
+      it "returns recipes by given order" do
         get "/recipes", { :order => "-id" }, env
-        response.status.should == 200
+        response.should be_ok
         response.body.should be_json(
           [
             lambda {|hash| hash["id"] == other_recipe.id },
@@ -70,17 +65,17 @@ describe "requests to recipes" do
     end
 
     context "with not-allowed order params" do
-      it do
+      it "returns 403" do
         get "/recipes", { :order => "title" }, env
-        response.status.should == 403
+        response.should be_forbidden
       end
     end
   end
 
   describe "GET /recipes/:id" do
-    it do
+    it "returns a recipe" do
       get "/recipes/#{recipe.id}", nil, env
-      response.status.should == 200
+      response.should be_ok
       response.body.should be_json(Hash)
     end
   end

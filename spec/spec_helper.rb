@@ -11,4 +11,5 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
 
   config.include RSpec::JsonMatcher, :type => :request
+  config.include ResponseCodeMatchers, :type => :request
 end

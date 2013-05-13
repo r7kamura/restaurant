@@ -98,6 +98,8 @@ GEM
     rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
+    response_code_matchers (0.0.2)
+      rack
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -139,6 +141,7 @@ DEPENDENCIES
   jquery-rails
   pry-rails
   rack-accept-default
+  response_code_matchers
   restaurant!
   rspec-json_matcher
   rspec-rails (>= 2.13.0)

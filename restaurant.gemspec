@@ -24,4 +24,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "pry-rails"
   gem.add_development_dependency "factory_girl_rails", "~> 4.0"
   gem.add_development_dependency "simplecov"
+  gem.add_development_dependency "response_code_matchers"
 end
