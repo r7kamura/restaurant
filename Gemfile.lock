@@ -112,6 +112,10 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     slop (3.4.4)
     sprockets (2.2.2)
       hike (~> 1.2)
@@ -138,4 +142,5 @@ DEPENDENCIES
   restaurant!
   rspec-json_matcher
   rspec-rails (>= 2.13.0)
+  simplecov
   sqlite3
