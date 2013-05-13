@@ -1,11 +1,9 @@
 # Restaurant
-Restaurant serves RESTful API on Rails.
+Restraunt serves your data via auto-defined RESTful API on your rails application.
 
-## Features
-
-### No more controllers, No more routes
+## controller-less & route-less
 Restaurant provides strict RESTful API implementation for your models.
-All controllers and routings will be auto-defined based on your config/restaurant.yml definition.
+All controllers and routes will be auto-defined based on your config/restaurant.yml definition.
 No need to write any more app/controllers and config/routes.rb.
 All you have to do is write your models and authorization yaml file.
 
@@ -35,7 +33,7 @@ public:
       - show
 ```
 
-### Authorization
+## Authorization
 You can restrict users by their scopes, accessed actions, and used queries.
 
 * User with "public" scope token
@@ -65,7 +63,7 @@ admin:
       - title
 ```
 
-### SQL-like URI query
+## SQL-like URI query
 Our restraunt serves SQL-like URI query system.
 
 ```ruby

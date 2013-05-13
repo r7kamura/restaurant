@@ -9,8 +9,8 @@ Gem::Specification.new do |gem|
   gem.authors     = ["Ryo Nakamura"]
   gem.email       = ["r7kamura@gmail.com"]
   gem.homepage    = "https://github.com/r7kamura/restaurant"
-  gem.summary     = "Rails RESTful API server plugin"
-  gem.description = "Restaurant serves RESTful API on Rails"
+  gem.summary     = "A rails plugin to auto-define RESTful API"
+  gem.description = "Restraunt serves your data via auto-defined RESTful API on your rails application."
 
   gem.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
