@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    restaurant (0.0.1)
+    restaurant (0.0.2)
       doorkeeper (~> 0.6.7)
       jquery-rails
       rack-accept-default
