@@ -110,4 +110,12 @@ describe "requests to recipes" do
       end
     end
   end
+
+  describe "DELETE /recipes/:id" do
+    it "destroyes a recipe" do
+      delete "/recipes/#{recipe.id}", nil, env
+      response.should be_no_content
+      Recipe.should have(0).recipe
+    end
+  end
 end

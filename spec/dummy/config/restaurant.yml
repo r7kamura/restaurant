@@ -5,6 +5,7 @@ public:
       - show
       - create
       - update
+      - destroy
     where:
       - title
     order:

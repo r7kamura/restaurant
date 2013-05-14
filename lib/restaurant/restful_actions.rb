@@ -14,7 +14,11 @@ module Restaurant::RestfulActions
   end
 
   def update
-    respond_with resource.update_attributes(model_param), :only => current_role.allowed_attributes
+    respond_with resource.update_attributes(model_param)
+  end
+
+  def destroy
+    respond_with resource.delete
   end
 
   private
