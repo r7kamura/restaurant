@@ -1,6 +1,4 @@
 module Restaurant::RestfulActions
-  extend ActiveSupport::Concern
-
   def index
     respond_with model.scoped, :only => current_role.allowed_attributes
   end
