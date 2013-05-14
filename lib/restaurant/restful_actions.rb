@@ -9,6 +9,10 @@ module Restaurant::RestfulActions
     respond_with model_class.find(params[:id]), :only => current_role.allowed_attributes
   end
 
+  def create
+    respond_with model_class.create(params[model_class.name.underscore]), :only => current_role.allowed_attributes
+  end
+
   private
 
   def model_class

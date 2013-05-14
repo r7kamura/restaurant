@@ -79,4 +79,19 @@ describe "requests to recipes" do
       response.body.should be_json(Hash)
     end
   end
+
+  describe "POST /recipes" do
+    it "creates a recipe" do
+      post "/recipes", { :recipe => { :title => "title" } }, env
+      response.should be_created
+      response.body.should be_json(Hash)
+    end
+
+    context "with invalid attributes" do
+      it "returns 422" do
+        post "/recipes", nil, env
+        be_unprocessable_entity
+      end
+    end
+  end
 end

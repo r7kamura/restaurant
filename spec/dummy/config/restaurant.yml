@@ -3,6 +3,7 @@ public:
     actions:
       - index
       - show
+      - create
     where:
       - title
     order:
