@@ -44,7 +44,7 @@ describe "requests to recipes" do
     end
 
     context "with where params" do
-      it "returns recipes filtered by given query" do
+      it "filters recipes" do
         get "/recipes", { :where => { :title => { :eq => recipe.title } } }, env
         response.should be_ok
         response.body.should be_json([Hash])
@@ -52,7 +52,7 @@ describe "requests to recipes" do
     end
 
     context "with order params" do
-      it "returns recipes by given order" do
+      it "sorts recipes" do
         get "/recipes", { :order => "-id" }, env
         response.should be_ok
         response.body.should be_json(
