@@ -2,6 +2,7 @@
 Restaurant serves your data via auto-defined RESTful API on your rails application.
 
 ## Features
+* Auto-defined models
 * Auto-defined controllers
 * Auto-defined routes
 * SQL-like URI query
@@ -18,8 +19,8 @@ Restaurant serves your data via auto-defined RESTful API on your rails applicati
  * PUT /:resources/:id
  * DELETE /:resources/:id
 
-## Auto-defined controllers and routes
-Controllers and routes are auto-defined from your config/restaurant.yml.
+## Auto-defined application
+Models, controllers, and routes are auto-defined from your config/restaurant.yml.
 
 ```yaml
 # config/restaurant.yml
