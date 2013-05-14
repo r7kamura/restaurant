@@ -9,5 +9,6 @@ module Restaurant::ControllerHelper
     include Restaurant::Authorization
     include Restaurant::RoleProvider
     self.responder = Restaurant::ParamsQueryResponder
+    respond_to :json
   end
 end
