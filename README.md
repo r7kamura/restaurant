@@ -34,33 +34,31 @@ public:
 ```
 
 ## Authorization
-You can restrict users by their scopes, accessed actions, and used queries.
-
-* User with "public" scope token
- * can access /recipes/:id
-* User with "admin" scope token
- * can access /recipes/:id
- * can access /recipes
- * can filter recipes by id and title
- * can sort recipes by id and title
+You can restrict users by scopes, actions, attributes, and queries.
 
 ```yaml
 # config/restaurant.yml
-public:
-  recipes:
-    actions:
-      - show
-admin:
-  recipes:
-    actions:
-      - index
-      - show
-    where:
-      - id
-      - title
-    order:
-      - id
-      - title
+public:         # User with "public" scope token
+  recipes:      #
+    actions:    #
+      - show    # can access to /recipes/:id
+    attributes: #
+      - title   # can read recipe.title
+
+admin:          # User with "admin" scope token
+  recipes:      #
+    actions:    #
+      - index   # can access to /recipes
+      - show    # can access to /recipes/:id
+    where:      #
+      - id      # can filter recipes by id
+      - title   # can filter recipes by title
+    order:      #
+      - id      # can sort recipes by id
+      - title   # can sort recipes by title
+    attributes: #
+      - id      # can read recipe.id
+      - title   # can read recipe.title
 ```
 
 ## SQL-like URI query

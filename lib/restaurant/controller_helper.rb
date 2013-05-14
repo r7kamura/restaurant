@@ -4,10 +4,10 @@ module Restaurant::ControllerHelper
   included do
     use Rack::AcceptDefault
     include Restaurant::ControllerProvider
-    include Restaurant::ModelClassFinder
     include Restaurant::RestfulActions
     include Restaurant::Authentication
     include Restaurant::Authorization
+    include Restaurant::RoleProvider
     self.responder = Restaurant::ParamsQueryResponder
   end
 end

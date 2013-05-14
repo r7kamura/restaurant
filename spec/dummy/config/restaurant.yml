@@ -7,3 +7,6 @@ public:
       - title
     order:
       - id
+    attributes:
+      - id
+      - title
