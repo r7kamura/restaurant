@@ -1,40 +1,8 @@
 # Restaurant
-Restraunt serves your data via auto-defined RESTful API on your rails application.
+Restaurant serves your data via auto-defined RESTful API on your rails application.
 
-## controller-less & route-less
-Restaurant provides strict RESTful API implementation for your models.
-All controllers and routes will be auto-defined based on your config/restaurant.yml definition.
-No need to write any more app/controllers and config/routes.rb.
-All you have to do is write your models and authorization yaml file.
-
-```ruby
-# app/controllers/application_controller.rb
-class ApplicationController < ActionController::Base
-  include Restaurant::ControllerHelper
-end
-```
-
-```ruby
-# config/routes.rb
-Rails.application.routes.draw do
-  Restaurant::Router.route(self)
-end
-```
-
-```yaml
-# config/restaurant.yml
-public:
-  recipes:
-    actions:
-      - index
-      - show
-  users:
-    actions:
-      - show
-```
-
-## Authorization
-You can restrict users by scopes, actions, attributes, and queries.
+## Auto-defined controllers and routes
+Controllers and routes are auto-defined from your config/restaurant.yml.
 
 ```yaml
 # config/restaurant.yml
@@ -44,7 +12,6 @@ public:         # User with "public" scope token
       - show    # can access to /recipes/:id
     attributes: #
       - title   # can read recipe.title
-
 admin:          # User with "admin" scope token
   recipes:      #
     actions:    #
@@ -62,7 +29,7 @@ admin:          # User with "admin" scope token
 ```
 
 ## SQL-like URI query
-Our restraunt serves SQL-like URI query system.
+You can filter and sort resources by SQL-like URI query.
 
 ```ruby
 context "with where params" do
@@ -79,6 +46,29 @@ context "with where params" do
     )
   end
 end
+```
+
+## Install
+```ruby
+# Gemfile
+gem "restaurant"
+
+# app/controllers/application_controller.rb
+class ApplicationController < ActionController::Base
+  include Restaurant::ControllerHelper
+end
+
+# config/routes.rb
+Rails.application.routes.draw do
+  Restaurant::Router.route(self)
+end
+```
+
+```
+$ bundle install
+$ bundle exec rails g doorkeeper:install
+$ bundle exec rails g doorkeeper:migration
+$ bundle exec rake db:migrate
 ```
 
 ## More
