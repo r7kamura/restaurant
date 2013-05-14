@@ -82,14 +82,30 @@ describe "requests to recipes" do
 
   describe "POST /recipes" do
     it "creates a recipe" do
-      post "/recipes", { :recipe => { :title => "title" } }, env
+      post "/recipes", { :recipe => { :title => "created" } }, env
       response.should be_created
       response.body.should be_json(Hash)
+      Recipe.first.title.should == "created"
     end
 
     context "with invalid attributes" do
       it "returns 422" do
         post "/recipes", nil, env
+        be_unprocessable_entity
+      end
+    end
+  end
+
+  describe "PUT /recipes/:id" do
+    it "updates a recipe" do
+      put "/recipes/#{recipe.id}", { :recipe => { :title => "updated" } }, env
+      response.should be_no_content
+      recipe.reload.title.should == "updated"
+    end
+
+    context "with invalid attributes" do
+      it "returns 422" do
+        put "/recipes/#{recipe.id}", { :recipe => { :title => nil } }, env
         be_unprocessable_entity
       end
     end

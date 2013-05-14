@@ -4,6 +4,7 @@ public:
       - index
       - show
       - create
+      - update
     where:
       - title
     order:
