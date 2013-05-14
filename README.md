@@ -1,6 +1,23 @@
 # Restaurant
 Restaurant serves your data via auto-defined RESTful API on your rails application.
 
+## Features
+* Auto-defined controllers
+* Auto-defined routes
+* SQL-like URI query
+* OAuth authentication
+* Scope based authorization
+ * restrict actions
+ * restrict attributes
+ * restrict filtering
+ * restrict sorting
+* RESTful APIs
+ * GET /:resources
+ * GET /:resources/:id
+ * POST /:resources
+ * PUT /:resources/:id
+ * DELETE /:resources/:id
+
 ## Auto-defined controllers and routes
 Controllers and routes are auto-defined from your config/restaurant.yml.
 
