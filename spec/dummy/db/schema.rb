@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130513031420) do
+ActiveRecord::Schema.define(:version => 20130514152843) do
+
+  create_table "ingredients", :force => true do |t|
+    t.string   "title"
+    t.float    "gram"
+    t.integer  "recipe_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "ingredients", ["recipe_id"], :name => "index_ingredients_on_recipe_id"
 
   create_table "oauth_access_grants", :force => true do |t|
     t.integer  "resource_owner_id", :null => false

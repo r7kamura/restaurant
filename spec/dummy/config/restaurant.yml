@@ -13,3 +13,10 @@ public:
     attributes:
       - id
       - title
+  ingredients:
+    actions:
+      - index
+      - show
+      - create
+      - update
+      - destroy
