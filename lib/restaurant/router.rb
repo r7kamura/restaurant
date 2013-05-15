@@ -10,9 +10,13 @@ class Restaurant::Router
   end
 
   def route
-    Restaurant::Config.roles.each do |role, controllers|
-      controllers.each do |controller_name, definitions|
-        router.resources controller_name, :only => definitions["actions"]
+    Restaurant::Config.versions.each do |version, scopes|
+      router.namespace(version) do
+        scopes.each do |scope, controllers|
+          controllers.each do |controller, values|
+            router.resources controller, :only => values["actions"]
+          end
+        end
       end
     end
   end

@@ -1,4 +1,6 @@
 module Restaurant::RoleProvider
+  private
+
   def current_role
     @current_role ||= Role.new(self)
   end
@@ -23,7 +25,7 @@ module Restaurant::RoleProvider
     end
 
     def abilities
-      @abilities ||= Restaurant::Config.roles.map do |role, controllers|
+      @abilities ||= Restaurant::Config.versions[controller.current_version].map do |role, controllers|
         if doorkeeper_token.scopes.include?(role.to_sym)
           controllers[controller_name]
         end
