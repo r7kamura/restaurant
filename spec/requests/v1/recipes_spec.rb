@@ -12,14 +12,6 @@ describe "/v1/recipes/*" do
     }
   end
 
-  let(:recipe) do
-    FactoryGirl.create(:recipe)
-  end
-
-  let(:other_recipe) do
-    FactoryGirl.create(:recipe)
-  end
-
   it "accepts CRUD requests" do
     post "/v1/recipes", { :recipe => { :title => "created" } }, env
     response.should be_created
@@ -36,6 +28,22 @@ describe "/v1/recipes/*" do
     get "/v1/recipes/#{id}", nil, env
     response.should be_ok
     JSON.parse(response.body)["title"].should == "updated"
+
+    post "/v1/recipes", { :recipe => { :title => "another" } }, env
+
+    get "/v1/recipes", { :where => { :title => { :eq => "another" } } }, env
+    response.body.should be_json([Hash])
+
+    get "/v1/recipes", { :order => "title" }, env
+    response.should be_forbidden
+
+    get "/v1/recipes", { :order => "-id" }, env
+    response.body.should be_json(
+      [
+        lambda {|recipe| recipe["title"] == "another" },
+        lambda {|recipe| recipe["title"] == "updated" },
+      ]
+    )
 
     delete "/v1/recipes/#{id}", nil, env
     response.should be_no_content
