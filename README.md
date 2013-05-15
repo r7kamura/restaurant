@@ -5,6 +5,7 @@ Restaurant serves your data via auto-defined RESTful API on your rails applicati
 * Auto-defined models
 * Auto-defined controllers
 * Auto-defined routes
+* Versioning
 * SQL-like URI query
 * OAuth authentication
 * Scope based authorization
@@ -13,37 +14,38 @@ Restaurant serves your data via auto-defined RESTful API on your rails applicati
  * restrict filtering
  * restrict sorting
 * RESTful APIs
- * GET /:resources
- * GET /:resources/:id
- * POST /:resources
- * PUT /:resources/:id
- * DELETE /:resources/:id
+ * GET /v1/:resources
+ * GET /v1/:resources/:id
+ * POST /v1/:resources
+ * PUT /v1/:resources/:id
+ * DELETE /v1/:resources/:id
 
 ## Auto-defined application
 Models, controllers, and routes are auto-defined from your config/restaurant.yml.
 
 ```yaml
 # config/restaurant.yml
-public:         # User with "public" scope token
-  recipes:      #
-    actions:    #
-      - show    # can access to /recipes/:id
-    attributes: #
-      - title   # can read recipe.title
-admin:          # User with "admin" scope token
-  recipes:      #
-    actions:    #
-      - index   # can access to /recipes
-      - show    # can access to /recipes/:id
-    where:      #
-      - id      # can filter recipes by id
-      - title   # can filter recipes by title
-    order:      #
-      - id      # can sort recipes by id
-      - title   # can sort recipes by title
-    attributes: #
-      - id      # can read recipe.id
-      - title   # can read recipe.title
+v1:               # Namespaced by v1
+  public:         # User with "public" scope token
+    recipes:      #
+      actions:    #
+        - show    # can access to /recipes/:id
+      attributes: #
+        - title   # can read recipe.title
+  admin:          # User with "admin" scope token
+    recipes:      #
+      actions:    #
+        - index   # can access to /recipes
+        - show    # can access to /recipes/:id
+      where:      #
+        - id      # can filter recipes by id
+        - title   # can filter recipes by title
+      order:      #
+        - id      # can sort recipes by id
+        - title   # can sort recipes by title
+      attributes: #
+        - id      # can read recipe.id
+        - title   # can read recipe.title
 ```
 
 ## SQL-like URI query
@@ -52,7 +54,7 @@ You can filter and sort resources by SQL-like URI query.
 ```ruby
 context "with where params" do
   it "returns recipes filtered by given query" do
-    get "/recipes", { where: { title: { eq: recipe.title } } }, env
+    get "/v1/recipes", { where: { title: { eq: recipe.title } } }, env
     response.should be_ok
     response.body.should be_json(
        "id"         => 1,

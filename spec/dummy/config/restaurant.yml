@@ -1,22 +1,29 @@
-public:
-  recipes:
-    actions:
-      - index
-      - show
-      - create
-      - update
-      - destroy
-    where:
-      - title
-    order:
-      - id
-    attributes:
-      - id
-      - title
-  ingredients:
-    actions:
-      - index
-      - show
-      - create
-      - update
-      - destroy
+v1:
+  public:
+    recipes:
+      actions:
+        - index
+        - show
+        - create
+        - update
+        - destroy
+      where:
+        - title
+      order:
+        - id
+      attributes:
+        - id
+        - title
+    ingredients:
+      actions:
+        - index
+        - show
+        - create
+        - update
+        - destroy
+
+v2:
+  public:
+    recipes:
+      actions:
+        - index
