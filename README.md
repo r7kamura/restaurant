@@ -1,5 +1,6 @@
 # Restaurant
-Restaurant serves your data via auto-defined RESTful API on your rails application.
+Restaurant serves your data via auto-defined RESTful API on your rails application.  
+All you have to do is to write config/restaurant.yml and create DB tables.
 
 ## Features
 * Auto-defined models
@@ -72,16 +73,6 @@ end
 ```ruby
 # Gemfile
 gem "restaurant"
-
-# app/controllers/application_controller.rb
-class ApplicationController < ActionController::Base
-  include Restaurant::ControllerHelper
-end
-
-# config/routes.rb
-Rails.application.routes.draw do
-  Restaurant::Router.route(self)
-end
 ```
 
 ```
@@ -89,6 +80,8 @@ $ bundle install
 $ bundle exec rails g doorkeeper:install
 $ bundle exec rails g doorkeeper:migration
 $ bundle exec rake db:migrate
+$ ... create your db and tables ...
+$ ... write your config/restaurant.yml
 ```
 
 ## More

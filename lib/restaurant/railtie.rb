@@ -1,6 +1,6 @@
-# Force to load ApplicationController to define the other controllers.
 class Restaurant::Railtie < Rails::Railtie
   config.after_initialize do
-    ::ApplicationController
+    Rails.application.routes.append { Restaurant::Router.route(self) }
+    ApplicationController.send :include, Restaurant::ControllerHelper
   end
 end
