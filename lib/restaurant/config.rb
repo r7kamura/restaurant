@@ -4,18 +4,6 @@ module Restaurant::Config
       @versions ||= YAML.load_file(path)
     end
 
-    def controllers
-      result = []
-      versions.each do |version, scopes|
-        scopes.each do |scope, controllers|
-          controllers.keys.each do |controller|
-            result << "#{version.camelize}::#{controller.camelize}Controller"
-          end
-        end
-      end
-      result.uniq
-    end
-
     def path
       Rails.root.join("config/restaurant.yml").tap do |path|
         raise NoRolesError, "#{path} is not found" unless path.exist?
