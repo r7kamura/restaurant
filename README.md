@@ -69,7 +69,7 @@ context "with where params" do
 end
 ```
 
-## Install
+## Usage
 ```ruby
 # Gemfile
 gem "restaurant"
@@ -80,8 +80,12 @@ $ bundle install
 $ bundle exec rails g doorkeeper:install
 $ bundle exec rails g doorkeeper:migration
 $ bundle exec rake db:migrate
+$ ... write your config/restaurant.yml ...
 $ ... create your db and tables ...
-$ ... write your config/restaurant.yml
+$ ... issue acceess tokens for your clients ...
+$ rails c
+irb(main):001:0> app.get "/v1/recipes?access_token=411bb7ec00076a740c5d8ef8832195ae131270829cdbe3f3d24520970a620058"
+=> 200
 ```
 
 ## More
