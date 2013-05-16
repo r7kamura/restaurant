@@ -1,65 +1,66 @@
 require "spec_helper"
 
-describe "/v1/recipes/*" do
-  let(:token) do
-    FactoryGirl.create(:doorkeeper_access_token)
-  end
-
+describe "/v1/recipes" do
   let(:env) do
-    {
-      "HTTP_ACCEPT"        => nil,
-      "HTTP_AUTHORIZATION" => "Bearer #{token.token}",
-    }
+    { "HTTP_ACCEPT" => nil }
   end
 
-  it "accepts CRUD requests" do
+  let(:recipe) do
     post "/v1/recipes", { :recipe => { :title => "created" } }, env
-    response.should be_created
-    response.body.should be_json(Hash)
-    id = JSON.parse(response.body)["id"]
-
-    get "/v1/recipes", nil, env
-    response.should be_ok
-    response.body.should be_json([Hash])
-
-    put "/v1/recipes/#{id}", { :recipe => { :title => "updated" } }, env
-    response.should be_no_content
-
-    get "/v1/recipes/#{id}", nil, env
-    response.should be_ok
-    JSON.parse(response.body)["title"].should == "updated"
-
-    post "/v1/recipes", { :recipe => { :title => "another" } }, env
-
-    get "/v1/recipes", { :where => { :title => { :eq => "another" } } }, env
-    response.body.should be_json([Hash])
-
-    get "/v1/recipes", { :order => "title" }, env
-    response.should be_forbidden
-
-    get "/v1/recipes", { :order => "-id" }, env
-    response.body.should be_json(
-      [
-        lambda {|recipe| recipe["title"] == "another" },
-        lambda {|recipe| recipe["title"] == "updated" },
-      ]
-    )
-
-    delete "/v1/recipes/#{id}", nil, env
-    response.should be_no_content
-
-    get "/v1/recipes/#{id}", nil, env
-    response.should be_not_found
+    JSON.parse(response.body)
   end
 
-  context "with overwritten model" do
-    context "with validation" do
-      context "with invalid attributes" do
-        it "returns 422" do
-          post "/v1/recipes", nil, env
-          be_unprocessable_entity
-        end
-      end
+  let(:id) do
+    recipe["_id"]
+  end
+
+  describe "GET /v1/recipes" do
+    before do
+      recipe
+    end
+
+    it "return recipes" do
+      get "/v1/recipes", nil, env
+      response.status.should == 200
+      response.body.should be_json([recipe])
+    end
+  end
+
+  describe "GET /v1/recipes/:id" do
+    it "returns the recipe" do
+      get "/v1/recipes/#{id}", nil, env
+      response.status.should == 200
+      response.body.should be_json(recipe)
+    end
+  end
+
+  describe "POST /v1/recipes" do
+    it "creates a new recipe" do
+      post "/v1/recipes", { :recipe => { :title => "created" } }, env
+      response.status.should == 201
+      response.body.should be_json(
+        "_id" => /\A[a-f0-9]{24}\z/,
+        "title" => "created"
+      )
+    end
+  end
+
+  describe "PUT /v1/recipes/:id" do
+    it "updates the recipe" do
+      put "/v1/recipes/#{id}", { :recipe => { :title => "updated" } }, env
+      response.status.should == 204
+      get "/v1/recipes/#{id}", nil, env
+      response.body.should be_json(
+        "_id" => id,
+        "title" => "updated"
+      )
+    end
+  end
+
+  describe "DELETE /v1/recipes/:id" do
+    it "deletes the recipe" do
+      delete "/v1/recipes/#{id}", nil, env
+      response.status.should == 204
     end
   end
 end
