@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "/v1/recipes" do
   let(:env) do
-    { "HTTP_ACCEPT" => nil }
+    { "HTTP_ACCEPT" => "application/json" }
   end
 
   let(:recipe) do

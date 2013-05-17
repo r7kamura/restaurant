@@ -29,8 +29,15 @@
 #
 module Restaurant
   class Router
-    def self.route(*args)
-      new(*args).route
+    class << self
+      def route(*args)
+        new(*args).route
+        @called = true
+      end
+
+      def called?
+        !!@called
+      end
     end
 
     attr_reader :router

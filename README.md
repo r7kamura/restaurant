@@ -3,24 +3,15 @@ Restaurant serves your data via auto-defined RESTful API on your rails applicati
 
 ## Usage
 ```
-$ rails new example
-$ cd example
-
-$ vi Gemfile
-source "https://rubygems.org"
-gem "rails", "~> 3.2.13"
-gem "restaurant"
-gem "sqlite3"
-
-$ vi config/routes.rb
-Example::Application.routes.draw do
-  Restaurant::Router.route(self)
-end
-
 $ brew install mongodb
 $ mongod --fork
 
+$ rails new example
+$ cd example
+
+$ echo 'gem "restaurant"' >> Gemfile
 $ bundle install
+
 $ rails g mongoid:config
 $ rails c
 
