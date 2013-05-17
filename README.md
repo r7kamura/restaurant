@@ -1,91 +1,58 @@
 # Restaurant
 Restaurant serves your data via auto-defined RESTful API on your rails application.  
-All you have to do is to write config/restaurant.yml and create DB tables.
+All you have to do is to edit config/routes.rb.
 
-## Features
-* Auto-defined models
-* Auto-defined controllers
-* Auto-defined routes
-* Versioning
-* SQL-like URI query
-* OAuth authentication
-* Scope based authorization
- * restrict actions
- * restrict attributes
- * restrict filtering
- * restrict sorting
-* RESTful APIs
- * GET /v1/:resources
- * GET /v1/:resources/:id
- * POST /v1/:resources
- * PUT /v1/:resources/:id
- * DELETE /v1/:resources/:id
-
-## Auto-defined application
-Models, controllers, and routes are auto-defined from your config/restaurant.yml.
-
-```yaml
-# config/restaurant.yml
-v1:               # Namespaced by v1
-  public:         # User with "public" scope token
-    recipes:      #
-      actions:    #
-        - show    # can access to /recipes/:id
-      attributes: #
-        - title   # can read recipe.title
-  admin:          # User with "admin" scope token
-    recipes:      #
-      actions:    #
-        - index   # can access to /recipes
-        - show    # can access to /recipes/:id
-      where:      #
-        - id      # can filter recipes by id
-        - title   # can filter recipes by title
-      order:      #
-        - id      # can sort recipes by id
-        - title   # can sort recipes by title
-      attributes: #
-        - id      # can read recipe.id
-        - title   # can read recipe.title
+## Get started
 ```
+$ rails new example
+$ cd example
 
-## SQL-like URI query
-You can filter and sort resources by SQL-like URI query.
+$ vi Gemfile
+source "https://rubygems.org"
+gem "rails", "~> 3.2.13"
+gem "restaurant"
+gem "sqlite3"
 
-```ruby
-context "with where params" do
-  it "returns recipes filtered by given query" do
-    get "/v1/recipes", { where: { title: { eq: recipe.title } } }, env
-    response.should be_ok
-    response.body.should be_json(
-       "id"         => 1,
-       "user_id"    => 1
-       "body"       => "body 1",
-       "title"      => "title 1",
-       "updated_at" => "2000-01-01T00:00:00Z",
-       "created_at" => "2000-01-01T00:00:00Z",
-    )
+$ vi config/routes.rb
+Example::Application.routes.draw do
+  namespace :v1 do
+    Restaurant::Router.route(self)
   end
 end
-```
 
-## Usage
-```ruby
-# Gemfile
-gem "restaurant"
-```
+$ brew install mongodb
+$ mongod --fork
 
-```
 $ bundle install
-$ bundle exec rails g doorkeeper:install
-$ bundle exec rails g doorkeeper:migration
-$ bundle exec rake db:migrate
-$ ... write your config/restaurant.yml ...
-$ ... create your db and tables ...
-$ ... issue acceess tokens for your clients ...
+$ rails g mongoid:config
 $ rails c
-irb(main):001:0> app.get "/v1/recipes?access_token=411bb7ec00076a740c5d8ef8832195ae131270829cdbe3f3d24520970a620058"
+
+[1] pry(main)> app.accept = "application/json"
+=> "application/json"
+[2] pry(main)> app.post "/v1/recipes.json", recipe: { title: "created" }
+=> 201
+[3] pry(main)> JSON.parse(app.response.body)
+=> {"title"=>"created", "_id"=>"51963fe9f02da4c1f8000001"}
+[4] pry(main)> app.get "/v1/recipes/51963fe9f02da4c1f8000001.json"
 => 200
+[5] pry(main)> JSON.parse(app.response.body)
+=> {"title"=>"created", "_id"=>"51963fe9f02da4c1f8000001"}
+[6] pry(main)> app.put "/v1/recipes/51963fe9f02da4c1f8000001.json", recipe: { title: "updated" }
+=> 204
+[7] pry(main)> app.get "/v1/recipes/51963fe9f02da4c1f8000001.json"
+=> 200
+[8] pry(main)> JSON.parse(app.response.body)
+=> {"title"=>"updated", "_id"=>"51963fe9f02da4c1f8000001"}
+[9] pry(main)> app.get "/v1/recipes.json"
+=> 200
+[10] pry(main)> JSON.parse(app.response.body)
+=> [{"title"=>"updated", "_id"=>"51963fe9f02da4c1f8000001"}]
+[11] pry(main)> app.delete "/v1/recipes/51963fe9f02da4c1f8000001.json"
+=> 204
+[12] pry(main)> app.get "/v1/recipes.json"
+=> 200
+[13] pry(main)> JSON.parse(app.response.body)
+=> []
 ```
 
 ## More
