@@ -1,8 +1,7 @@
 # Restaurant
-Restaurant serves your data via auto-defined RESTful API on your rails application.  
-All you have to do is to edit config/routes.rb.
+Restaurant serves your data via auto-defined RESTful API on your rails application.
 
-## Get started
+## Usage
 ```
 $ rails new example
 $ cd example
@@ -15,9 +14,7 @@ gem "sqlite3"
 
 $ vi config/routes.rb
 Example::Application.routes.draw do
-  namespace :v1 do
-    Restaurant::Router.route(self)
-  end
+  Restaurant::Router.route(self)
 end
 
 $ brew install mongodb
@@ -29,27 +26,27 @@ $ rails c
 
 [1] pry(main)> app.accept = "application/json"
 => "application/json"
-[2] pry(main)> app.post "/v1/recipes.json", recipe: { title: "created" }
+[2] pry(main)> app.post "/recipes", recipe: { title: "created" }
 => 201
 [3] pry(main)> JSON.parse(app.response.body)
 => {"title"=>"created", "_id"=>"51963fe9f02da4c1f8000001"}
-[4] pry(main)> app.get "/v1/recipes/51963fe9f02da4c1f8000001.json"
+[4] pry(main)> app.get "/recipes/51963fe9f02da4c1f8000001"
 => 200
 [5] pry(main)> JSON.parse(app.response.body)
 => {"title"=>"created", "_id"=>"51963fe9f02da4c1f8000001"}
-[6] pry(main)> app.put "/v1/recipes/51963fe9f02da4c1f8000001.json", recipe: { title: "updated" }
+[6] pry(main)> app.put "/recipes/51963fe9f02da4c1f8000001", recipe: { title: "updated" }
 => 204
-[7] pry(main)> app.get "/v1/recipes/51963fe9f02da4c1f8000001.json"
+[7] pry(main)> app.get "/recipes/51963fe9f02da4c1f8000001"
 => 200
 [8] pry(main)> JSON.parse(app.response.body)
 => {"title"=>"updated", "_id"=>"51963fe9f02da4c1f8000001"}
-[9] pry(main)> app.get "/v1/recipes.json"
+[9] pry(main)> app.get "/recipes"
 => 200
 [10] pry(main)> JSON.parse(app.response.body)
 => [{"title"=>"updated", "_id"=>"51963fe9f02da4c1f8000001"}]
-[11] pry(main)> app.delete "/v1/recipes/51963fe9f02da4c1f8000001.json"
+[11] pry(main)> app.delete "/recipes/51963fe9f02da4c1f8000001"
 => 204
-[12] pry(main)> app.get "/v1/recipes.json"
+[12] pry(main)> app.get "/recipes"
 => 200
 [13] pry(main)> JSON.parse(app.response.body)
 => []
