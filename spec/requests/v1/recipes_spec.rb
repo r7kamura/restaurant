@@ -50,6 +50,20 @@ describe "/v1/recipes" do
         response.body.should be_json([another_recipe, recipe])
       end
     end
+
+    context "with page query" do
+      before do
+        10.times do
+          post "/v1/recipes"
+        end
+      end
+
+      it "paginates recipes" do
+        get "/v1/recipes", :page => 2
+        response.status.should == 200
+        response.body.should be_json([Hash, Hash])
+      end
+    end
   end
 
   describe "GET /v1/recipes/:id" do

@@ -5,7 +5,7 @@ module Restaurant
     end
 
     def index
-      respond_with collection.find(filter_params).sort(sort_params)
+      respond_with collection.find(filter_params).sort(sort_params).skip(skip_params).limit(limit_params)
     end
 
     def show
@@ -75,6 +75,22 @@ module Restaurant
       else
         {}
       end
+    end
+
+    def skip_params
+      (page - 1) * per_page
+    end
+
+    def limit_params
+      per_page
+    end
+
+    def page
+      [params[:page].to_i, 1].max
+    end
+
+    def per_page
+      10
     end
   end
 end
