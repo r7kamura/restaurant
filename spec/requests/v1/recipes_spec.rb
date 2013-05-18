@@ -10,6 +10,11 @@ describe "/v1/recipes" do
     JSON.parse(response.body)
   end
 
+  let(:another_recipe) do
+    post "/v1/recipes", :recipe => { :title => "another" }
+    JSON.parse(response.body)
+  end
+
   let(:id) do
     recipe["_id"]
   end
@@ -21,12 +26,21 @@ describe "/v1/recipes" do
   describe "GET /v1/recipes" do
     before do
       recipe
+      another_recipe
     end
 
     it "return recipes" do
       get "/v1/recipes"
       response.status.should == 200
-      response.body.should be_json([recipe])
+      response.body.should be_json([recipe, another_recipe])
+    end
+
+    context "with where query" do
+      it "filters recipes" do
+        get "/v1/recipes", :where => { :title => { "$ne" => "created" } }
+        response.status.should == 200
+        response.body.should be_json([another_recipe])
+      end
     end
   end
 

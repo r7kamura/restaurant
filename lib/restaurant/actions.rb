@@ -8,7 +8,7 @@ module Restaurant
     end
 
     def index
-      respond_with collection.find
+      respond_with collection.find(filter_params)
     end
 
     def show
@@ -58,6 +58,10 @@ module Restaurant
           Moped::BSON::ObjectId.new
         end
       end
+    end
+
+    def filter_params
+      params[:where] || {}
     end
   end
 end
