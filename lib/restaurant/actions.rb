@@ -8,7 +8,7 @@ module Restaurant
     end
 
     def index
-      respond_with collection.find(filter_params)
+      respond_with collection.find(filter_params).sort(sort_params)
     end
 
     def show
@@ -62,6 +62,18 @@ module Restaurant
 
     def filter_params
       params[:where] || {}
+    end
+
+    def sort_params
+      if params[:sort]
+        Hash[
+          params[:sort].map do |key, value|
+            [key, value.to_i]
+          end
+        ]
+      else
+        {}
+      end
     end
   end
 end

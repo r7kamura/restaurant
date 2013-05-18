@@ -42,6 +42,14 @@ describe "/v1/recipes" do
         response.body.should be_json([another_recipe])
       end
     end
+
+    context "with sort query" do
+      it "sorts recipes" do
+        get "/v1/recipes", :sort => { :title => 1 }
+        response.status.should == 200
+        response.body.should be_json([another_recipe, recipe])
+      end
+    end
   end
 
   describe "GET /v1/recipes/:id" do
