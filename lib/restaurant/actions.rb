@@ -35,7 +35,7 @@ module Restaurant
     end
 
     def collection
-      Mongoid.default_session.with(:safe => true)[resources_name]
+      Mongoid.default_session[resources_name]
     end
 
     def resource_name
