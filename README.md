@@ -54,11 +54,11 @@ While Restaurant automagically defines what RESTful API needs, you can do them o
 # config/routes.rb
 #   1. V1::ResourcesController < ApplicationController are defined if not defined
 #   2. The following routes are defined
-#     GET    /v1/:resources     -> V1::ReosurcesController#index
-#     GET    /v1/:resources/:id -> V1::ResourcesController#show
-#     POST   /v1/:resources     -> V1::ResourcesController#create
-#     PUT    /v1/:resources/:id -> V1::ResourcesController#update
-#     DELETE /v1/:resources/:id -> V1::ResourcesController#destroy
+#     GET    /v1/:resource     -> V1::ReosurcesController#index
+#     GET    /v1/:resource/:id -> V1::ResourcesController#show
+#     POST   /v1/:resource     -> V1::ResourcesController#create
+#     PUT    /v1/:resource/:id -> V1::ResourcesController#update
+#     DELETE /v1/:resource/:id -> V1::ResourcesController#destroy
 namespace :v1 do
   Restaurant::Router.route(self)
 end
