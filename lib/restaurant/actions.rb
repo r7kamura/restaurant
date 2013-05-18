@@ -1,11 +1,18 @@
 module Restaurant
   module Actions
+    def self.included(base)
+      base.before_filter :require_resource, :only => [:show, :update, :destroy]
+      base.rescue_from Moped::Errors::InvalidObjectId do
+        head 404
+      end
+    end
+
     def index
       respond_with collection.find
     end
 
     def show
-      respond_with collection.find(:_id => resource_id).first
+      respond_with @resource
     end
 
     def create
@@ -22,6 +29,10 @@ module Restaurant
     end
 
     private
+
+    def require_resource
+      @resource = collection.find(:_id => resource_id).first || head(404)
+    end
 
     def collection
       Mongoid.default_session.with(:safe => true)[resources_name]
