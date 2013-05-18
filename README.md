@@ -117,7 +117,7 @@ irb(main):003:0> application = Doorkeeper::Application.create(name: "example", r
 => #<Doorkeeper::Application ...>
 irb(main):004:0> create = application.access_tokens.create
 => #<Doorkeeper::AccessToken ...>
-irb(main):005:0> app.get "/v2/recipes", { access_token: token.token }
+irb(main):005:0> app.get "/v2/recipes", access_token: token.token
 => 200
 irb(main):006:0> JSON.parse(app.response.body)
 => [...]
