@@ -6,7 +6,7 @@ describe "/v1/recipes" do
   end
 
   let(:recipe) do
-    post "/v1/recipes", { :recipe => { :title => "created" } }
+    post "/v1/recipes", :recipe => { :title => "created" }
     JSON.parse(response.body)
   end
 
@@ -56,7 +56,7 @@ describe "/v1/recipes" do
 
   describe "POST /v1/recipes" do
     it "creates a new recipe" do
-      post "/v1/recipes", { :recipe => { :title => "created" } }
+      post "/v1/recipes", :recipe => { :title => "created" }
       response.status.should == 201
       response.body.should be_json("_id" => /\A[a-f0-9]{24}\z/, "title" => "created")
       response.location.should =~ %r<http://www\.example\.com/v1/recipes/[a-f0-9]{24}>
@@ -66,7 +66,7 @@ describe "/v1/recipes" do
   describe "PUT /v1/recipes/:id" do
     context "with existent id" do
       it "updates the recipe" do
-        put "/v1/recipes/#{id}", { :recipe => { :title => "updated" } }
+        put "/v1/recipes/#{id}", :recipe => { :title => "updated" }
         response.status.should == 204
 
         get "/v1/recipes/#{id}"
@@ -76,7 +76,7 @@ describe "/v1/recipes" do
 
     context "with non-existent id" do
       it "returns 404" do
-        put "/v1/recipes/#{non_existent_id}", { :recipe => { :title => "updated" } }
+        put "/v1/recipes/#{non_existent_id}", :recipe => { :title => "updated" }
         response.status.should == 404
       end
     end
