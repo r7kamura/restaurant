@@ -42,6 +42,7 @@ describe "/v2/recipes" do
 
       it "returns 401" do
         post "/v2/recipes", params
+        response.status.should == 401
       end
     end
 
