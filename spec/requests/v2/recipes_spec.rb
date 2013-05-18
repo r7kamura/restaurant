@@ -10,7 +10,11 @@ describe "/v2/recipes" do
   end
 
   let(:access_token) do
-    application.access_tokens.create
+    application.access_tokens.create(:scopes => scopes)
+  end
+
+  let(:scopes) do
+    "public"
   end
 
   let(:params) do
@@ -46,10 +50,30 @@ describe "/v2/recipes" do
       end
     end
 
-    context "with authentication" do
-      it "creates a new recipe" do
-        post "/v2/recipes", params
-        response.status.should == 201
+    describe "about authorization" do
+      before do
+        Mongoid.default_session["roles"].insert(
+          :scope => "admin",
+          :recipes => ["create"]
+        )
+      end
+
+      context "without authorization" do
+        it "returns 403" do
+          post "/v2/recipes", params
+          response.status.should == 403
+        end
+      end
+
+      context "with authorization" do
+        let(:scopes) do
+          "admin"
+        end
+
+        it "creates a new recipe" do
+          post "/v2/recipes", params
+          response.status.should == 201
+        end
       end
     end
   end

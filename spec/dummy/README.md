@@ -36,6 +36,9 @@ This is an example app of Restaurant.
   POST /v2/recipes
     without authentication
       returns 401
-    with authentication
-      creates a new recipe
+    about authorization
+      without authorization
+        returns 403
+      with authorization
+        creates a new recipe
 ```
