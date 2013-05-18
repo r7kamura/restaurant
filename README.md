@@ -16,7 +16,6 @@ $ bundle install
 $ rails g mongoid:config
 $ rails c
 
-
 irb(main):001:0> app.accept = "application/json"
 => "application/json"
 irb(main):002:0> app.post "/recipes", recipe: { title: "created" }
@@ -87,6 +86,39 @@ module V1
     end
   end
 end
+```
+
+### authentication & authorization
+Restaurant does not provide any auth layer, but it's easy to add it to your application.  
+Here is a short example to authenticate users with [doorkeeper](https://github.com/applicake/doorkeeper).
+
+```
+$ echo 'gem "doorkeeper"' >> Gemfile
+$ bundle install
+
+$ rails g doorkeeper:install
+$ rails g doorkeeper:migration
+$ bundle exec rake db:migrate
+
+$ vi app/controllers/application_controller.rb
+class ApplicationController < ActionController::Base
+  doorkeeper_for :all
+end
+
+$ rails c
+
+irb(main):001:0> app.accept = "application/json"
+=> "application/json"
+irb(main):002:0> app.get "/v2/recipes"
+=> 401
+irb(main):003:0> application = Doorkeeper::Application.create(name: "example", redirect_uri: "http://example.com")
+=> #<Doorkeeper::Application ...>
+irb(main):004:0> create = application.access_tokens.create
+=> #<Doorkeeper::AccessToken ...>
+irb(main):005:0> app.get "/v2/recipes", { access_token: token.token }
+=> 200
+irb(main):006:0> JSON.parse(app.response.body)
+=> [...]
 ```
 
 ## More
