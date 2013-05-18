@@ -35,9 +35,9 @@ describe "/v1/recipes" do
       response.body.should be_json([recipe, another_recipe])
     end
 
-    context "with where query" do
+    context "with filter query" do
       it "filters recipes" do
-        get "/v1/recipes", :where => { :title => { "$ne" => "created" } }
+        get "/v1/recipes", :filter => { :title => { "$ne" => "created" } }
         response.status.should == 200
         response.body.should be_json([another_recipe])
       end

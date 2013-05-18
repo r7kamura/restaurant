@@ -61,7 +61,7 @@ module Restaurant
     end
 
     def filter_params
-      params[:where] || {}
+      params[:filter] || {}
     end
 
     def sort_params
