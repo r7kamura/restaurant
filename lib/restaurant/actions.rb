@@ -66,15 +66,7 @@ module Restaurant
     end
 
     def sort_params
-      if params[:sort]
-        Hash[
-          params[:sort].map do |key, value|
-            [key, value.to_i]
-          end
-        ]
-      else
-        {}
-      end
+      Hash[(params[:sort] || []).map {|key, value| [key, value.to_i] }]
     end
 
     def skip_params
