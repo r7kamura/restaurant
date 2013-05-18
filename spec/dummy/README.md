@@ -10,6 +10,8 @@ This is an example app of Restaurant.
       filters recipes
     with sort query
       sorts recipes
+    with page query
+      paginates recipes
   GET /v1/recipes/:id
     with existent id
       returns the recipe
