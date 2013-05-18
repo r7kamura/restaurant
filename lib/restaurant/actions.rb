@@ -78,15 +78,11 @@ module Restaurant
     end
 
     def skip_params
-      (page - 1) * per_page
+      ([params[:page].to_i, 1].max - 1) * per_page
     end
 
     def limit_params
       per_page
-    end
-
-    def page
-      [params[:page].to_i, 1].max
     end
 
     def per_page
