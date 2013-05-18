@@ -16,12 +16,12 @@ module Restaurant
     end
 
     def create
-      collection.insert(resource_param.merge(:_id => resource_id))
+      collection.insert(resource_params.merge(:_id => resource_id))
       respond_with collection.find(:_id => resource_id).first, :location => { :action => :show, :id => resource_id }
     end
 
     def update
-      respond_with collection.find(:_id => resource_id).update(:$set => resource_param)
+      respond_with collection.find(:_id => resource_id).update(:$set => resource_params)
     end
 
     def destroy
@@ -46,7 +46,7 @@ module Restaurant
       params[:resource]
     end
 
-    def resource_param
+    def resource_params
       params[resource_name]
     end
 
