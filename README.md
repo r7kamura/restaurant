@@ -16,31 +16,32 @@ $ bundle install
 $ rails g mongoid:config
 $ rails c
 
-[1] pry(main)> app.accept = "application/json"
+
+irb(main):001:0> app.accept = "application/json"
 => "application/json"
-[2] pry(main)> app.post "/recipes", recipe: { title: "created" }
+irb(main):002:0> app.post "/recipes", recipe: { title: "created" }
 => 201
-[3] pry(main)> JSON.parse(app.response.body)
+irb(main):003:0 JSON.parse(app.response.body)
 => {"title"=>"created", "_id"=>"51963fe9f02da4c1f8000001"}
-[4] pry(main)> app.get "/recipes/51963fe9f02da4c1f8000001"
+irb(main):004:0> app.get "/recipes/51963fe9f02da4c1f8000001"
 => 200
-[5] pry(main)> JSON.parse(app.response.body)
+irb(main):005:0> JSON.parse(app.response.body)
 => {"title"=>"created", "_id"=>"51963fe9f02da4c1f8000001"}
-[6] pry(main)> app.put "/recipes/51963fe9f02da4c1f8000001", recipe: { title: "updated" }
+irb(main):006:0> app.put "/recipes/51963fe9f02da4c1f8000001", recipe: { title: "updated" }
 => 204
-[7] pry(main)> app.get "/recipes/51963fe9f02da4c1f8000001"
+irb(main):007:0> app.get "/recipes/51963fe9f02da4c1f8000001"
 => 200
-[8] pry(main)> JSON.parse(app.response.body)
+irb(main):008:0> JSON.parse(app.response.body)
 => {"title"=>"updated", "_id"=>"51963fe9f02da4c1f8000001"}
-[9] pry(main)> app.get "/recipes"
+irb(main):009:0> app.get "/recipes"
 => 200
-[10] pry(main)> JSON.parse(app.response.body)
+irb(main):010:0> JSON.parse(app.response.body)
 => [{"title"=>"updated", "_id"=>"51963fe9f02da4c1f8000001"}]
-[11] pry(main)> app.delete "/recipes/51963fe9f02da4c1f8000001"
+irb(main):011:0> app.delete "/recipes/51963fe9f02da4c1f8000001"
 => 204
-[12] pry(main)> app.get "/recipes"
+irb(main):012:0> app.get "/recipes"
 => 200
-[13] pry(main)> JSON.parse(app.response.body)
+irb(main):013:0> JSON.parse(app.response.body)
 => []
 ```
 
