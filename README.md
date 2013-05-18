@@ -1,6 +1,6 @@
 # Restaurant
 Restaurant serves your data via auto-defined RESTful API on your rails application.  
-No longer models, controllers, views, routes, and schema are needed.
+No longer models, controllers, views, routes, and schemas are needed.
 
 ## Usage
 ```
