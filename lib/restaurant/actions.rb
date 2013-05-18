@@ -1,10 +1,7 @@
 module Restaurant
   module Actions
     def self.included(base)
-      base.before_filter :require_resource, :only => [:show, :update, :destroy]
-      base.rescue_from Moped::Errors::InvalidObjectId do
-        head 404
-      end
+      base.before_filter :require_valid_id, :require_resource, :only => [:show, :update, :destroy]
     end
 
     def index
@@ -29,6 +26,10 @@ module Restaurant
     end
 
     private
+
+    def require_valid_id
+      head 404 unless Moped::BSON::ObjectId.legal?(params[:id])
+    end
 
     def require_resource
       @resource = collection.find(:_id => resource_id).first || head(404)
