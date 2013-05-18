@@ -3,6 +3,8 @@ Restaurant serves your data via auto-defined RESTful API on your rails applicati
 No longer models, controllers, views, routes, and schemas are needed.
 
 ## Usage
+Here is an example that creates a new rails app with Restaurant to provide RESTful API.
+
 ```
 $ brew install mongodb
 $ mongod --fork
