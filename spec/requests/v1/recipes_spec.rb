@@ -94,7 +94,12 @@ describe "/v1/recipes" do
     it "creates a new recipe" do
       post "/v1/recipes", :recipe => { :title => "created" }
       response.status.should == 201
-      response.body.should be_json("_id" => /\A[a-f0-9]{24}\z/, "title" => "created")
+      response.body.should be_json(
+        "_id" => /\A[a-f0-9]{24}\z/,
+        "title" => "created",
+        "created_at" => /\A\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ\z/,
+        "updated_at" => /\A\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ\z/,
+      )
       response.location.should =~ %r<http://www\.example\.com/v1/recipes/[a-f0-9]{24}>
     end
   end
@@ -106,7 +111,12 @@ describe "/v1/recipes" do
         response.status.should == 204
 
         get "/v1/recipes/#{id}"
-        response.body.should be_json("_id" => id, "title" => "updated")
+        response.body.should be_json(
+          "_id" => id,
+          "title" => "updated",
+          "created_at" => /\A\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ\z/,
+          "updated_at" => /\A\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ\z/,
+        )
       end
     end
 

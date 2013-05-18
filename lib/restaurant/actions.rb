@@ -2,6 +2,8 @@ module Restaurant
   module Actions
     def self.included(base)
       base.before_filter :require_valid_id, :require_resource, :only => [:show, :update, :destroy]
+      base.before_filter :add_created_at, :only => :create
+      base.before_filter :add_updated_at, :only => :update
     end
 
     def index
@@ -48,7 +50,7 @@ module Restaurant
     end
 
     def resource_params
-      params[resource_name] || {}
+      @resource_params ||= params[resource_name] || {}
     end
 
     def resource_id
@@ -79,6 +81,14 @@ module Restaurant
 
     def per_page
       10
+    end
+
+    def add_created_at
+      resource_params[:created_at] = resource_params[:updated_at] = Time.now
+    end
+
+    def add_updated_at
+      resource_params[:updated_at] = Time.now
     end
   end
 end
