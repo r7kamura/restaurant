@@ -48,7 +48,7 @@ module Restaurant
     end
 
     def resource_params
-      params[resource_name]
+      params[resource_name] || {}
     end
 
     def resource_id
