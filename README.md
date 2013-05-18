@@ -64,6 +64,10 @@ namespace :v1 do
 end
 
 # Or customize what you want (e.g. only provides Read API)
+#   1. V2::ResourcesController < ApplicationController are defined if not defined
+#   2. The following routes are defined
+#     GET    /v1/:resource     -> V1::ReosurcesController#index
+#     GET    /v1/:resource/:id -> V1::ResourcesController#show
 namespace :v2 do
   scope ":resource" do
     controller :resources do
