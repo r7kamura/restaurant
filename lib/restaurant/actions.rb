@@ -4,6 +4,7 @@ module Restaurant
       base.before_filter :require_valid_id, :require_resource, :only => [:show, :update, :destroy]
       base.before_filter :add_created_at, :only => :create
       base.before_filter :add_updated_at, :only => :update
+      base.after_filter :expire_resource_cache, :only => [:update, :destroy]
     end
 
     def index
@@ -11,7 +12,7 @@ module Restaurant
     end
 
     def show
-      respond_with @resource
+      respond_with resource
     end
 
     def create
@@ -34,12 +35,27 @@ module Restaurant
     end
 
     def require_resource
-      @resource = collection.find(:_id => resource_id).first || head(404)
+      head 404 unless resource
     end
 
     def collection
       Mongoid.default_session[resources_name]
     end
+
+    def resource
+      @resource ||= collection.find(:_id => resource_id).first
+    end
+
+    def resource_with_cache
+      if cache_configured?
+        cache_store.fetch(resource_cache_key) do
+          resource_without_cache
+        end
+      else
+        resource_without_cache
+      end
+    end
+    alias_method_chain :resource, :cache
 
     def resource_name
       resources_name.singularize
@@ -89,6 +105,14 @@ module Restaurant
 
     def add_updated_at
       resource_params[:updated_at] = Time.now
+    end
+
+    def expire_resource_cache
+      cache_store.delete(resource_cache_key) if cache_configured?
+    end
+
+    def resource_cache_key
+      params.slice(:resource, :id)
     end
   end
 end
