@@ -5,10 +5,11 @@ module Restaurant
       base.before_filter :add_created_at, :only => :create
       base.before_filter :add_updated_at, :only => :update
       base.after_filter :expire_resource_cache, :only => [:update, :destroy]
+      base.after_filter :update_resources_version_cache, :only => [:create, :update, :destroy]
     end
 
     def index
-      respond_with collection.find(filter_params).sort(sort_params).skip(skip_params).limit(limit_params)
+      respond_with resources
     end
 
     def show
@@ -45,6 +46,21 @@ module Restaurant
     def resource
       @resource ||= collection.find(:_id => resource_id).first
     end
+
+    def resources
+      collection.find(filter_params).sort(sort_params).skip(skip_params).limit(limit_params).to_a
+    end
+
+    def resources_with_cache
+      if cache_configured?
+        cache_store.fetch(resources_cache_key) do
+          resources_without_cache
+        end
+      else
+        resources_without_cache
+      end
+    end
+    alias_method_chain :resources, :cache
 
     def resource_with_cache
       if cache_configured?
@@ -113,6 +129,24 @@ module Restaurant
 
     def resource_cache_key
       params.slice(:resource, :id)
+    end
+
+    def resources_version_cache_key
+      { :resource => params[:resource] }
+    end
+
+    def update_resources_version_cache
+      if cache_configured?
+        cache_store.write(resources_version_cache_key, Time.now.to_f)
+      end
+    end
+
+    def resources_version
+      cache_store.read(resources_version_cache_key)
+    end
+
+    def resources_cache_key
+      params.slice(:resource, :filter, :sort, :page).merge(:version => resources_version)
     end
   end
 end
